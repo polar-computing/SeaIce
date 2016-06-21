@@ -1,0 +1,28 @@
+Sensor,Band,min,max,resolution
+Landsat 7,1,0.45,0.515,30
+Landsat 7,2,0.625,0.605,30
+Landsat 7,3,0.63,0.69,30
+Landsat 7,4,0.75,0.9,30
+Landsat 7,5,1.55,1.75,30
+Landsat 7,6,10.4,12.5,60
+Landsat 7,7,2.09,2.35,30
+Landsat 7,Pan,0.52,0.9,15
+Ikonos,1,0.45,0.52,4
+Ikonos,2,0.51,0.6,4
+Ikonos,3,0.63,0.7,4
+Ikonos,4,0.76,0.85,4
+Ikonos,Pan,0.45,0.9,1
+Worldview 2,1,0.4,0.45,1.8
+Worldview 2,2,0.45,0.51,1.8
+Worldview 2,3,0.51,0.58,1.8
+Worldview 2,4,0.585,0.625,1.8
+Worldview 2,5,0.63,0.69,1.8
+Worldview 2,6,0.705,0.745,1.8
+Worldview 2,7,0.77,0.895,1.8
+Worldview 2,8,0.86,1.04,1.8
+Worldview 2,Pan,0.45,0.8,0.46
+Quickbird,1,0.45,0.52,2.44
+Quickbird,2,0.52,0.66,2.44
+Quickbird,3,0.63,0.69,2.44
+Quickbird,4,0.76,0.9,2.44
+Quickbird,Pan,0.45,0.9,0.61

@@ -1,0 +1,119 @@
+---
+output: 
+  html_document:
+    toc: true 
+    depth: 2  
+---
+```{r setup,echo=FALSE}
+require(ggplot2)
+
+Sensorspecs <- read.csv("Sensorspecs.csv")
+Sensorspecs$wavelength = 1
+HighRes <- subset(Sensorspecs,Sensorspecs$resolution <= 4)
+LowRes <- subset(Sensorspecs,Sensorspecs$resolution > 4)
+```
+
+
+# Summaries
+
+## Low Resolution
+```{r,echo=FALSE,fig.height=2}
+limits <- aes(xmax = max, xmin=min)
+p <- ggplot(data = LowRes, aes(colour=resolution,x=wavelength,y=Band))
+p + geom_errorbarh(limits)+ facet_grid( Sensor ~ .,scales = "free")+ scale_colour_gradient("Res (m)")
+```
+
+
+## High Resolution
+```{r,echo=FALSE,fig.height=6}
+limits <- aes(xmax = max, xmin=min)
+p <- ggplot(data = HighRes, aes(colour=resolution,x=wavelength,y=Band))
+p + geom_errorbarh(limits)+ facet_grid( Sensor ~ .,scales = "free") + scale_colour_gradient("Res (m)")
+```
+
+
+```{r errorBarPlot,echo=FALSE,fig.height=2}
+plotSensor <- function(sensor){
+df <- subset(Sensorspecs,Sensorspecs$Sensor == sensor)
+limits <- aes(xmax = max, xmin=min)
+
+p <- ggplot(data = df, aes(colour=resolution,x=wavelength,y=Band))
+p + geom_errorbarh(limits)+ facet_grid( Sensor ~ .,scales = "free")+ scale_colour_gradient("Res (m)")
+}
+```
+#Details
+## Landsat 7
+
+#### Spectral Range
+| Band | Spectral range (µm)| Resolution (m)  |
+|:-:|:-:| -:|
+|1| 0.450 - 0.515 | 30 |
+|2| 0.625 - 0.605 | 30 |
+|3| 0.630 - 0.690 | 30 |
+|4| 0.750 - 0.900 | 30 |
+|5| 1.550 - 1.750 | 30 |
+|6| 10.400 - 12.500 | 60 |
+|7| 2.090 - 2.350 | 30 |
+|Pan| 0.520 - 0.900 | 15 |
+
+```{r, echo=FALSE ,fig.height=2}
+plotSensor("Landsat 7")
+```
+
+----
+
+## Ikonos
+
+#### Spectral Range
+| Band | Spectral range (µm)| Resolution (m)  |
+|:-:|:-:| -:|
+|1| 0.45 - 0.52 | 4 |
+|2| 0.51 - 0.60 | 4 |
+|3| 0.63 - 0.70 | 4 |
+|4| 0.76 - 0.85 | 4 |
+|Pan| 0.45 - 0.9 | 1 |
+
+
+
+```{r, echo=FALSE,fig.height=2}
+plotSensor("Ikonos")
+```
+
+----
+
+## Worldview 2
+
+#### Spectral Range
+| Band | Spectral range (µm)| Resolution (m)  |
+|:-:|:-:| -:|
+|1| 0.400 - 0.450 | 1.8 |
+|2| 0.450 - 0.510 | 1.8 |
+|3| 0.510 - 0.580 | 1.8 |
+|4| 0.585 - 0.625 | 1.8 |
+|5| 0.630 - 0.690 | 1.8 |
+|6| 0.705 - 0.745 | 1.8 |
+|7| 0.770 - 0.895 | 1.8 |
+|8| 0.860 - 1.040 | 1.8 |
+|Pan| 0.450 - 0.800 | 0.46 |
+
+
+```{r, echo=FALSE,fig.height=2}
+plotSensor("Worldview 2")
+```
+
+----
+
+## Quickbird
+
+#### Spectral Range
+| Band | Spectral range (µm)| Resolution (m)  |
+|:-:|:-:| -:|
+|1| 0.45 - 0.52 | 2.44 |
+|2| 0.52 - 0.60 | 2.44 |
+|3| 0.63 - 0.69 | 2.44 |
+|4| 0.76 - 0.90 | 2.44 |
+|Pan| 0.45 - 0.90 | 0.61 |
+
+```{r, echo=FALSE,fig.height=2}
+plotSensor("Quickbird")
+```
