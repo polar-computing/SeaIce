@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Spyder Editor
-
-This is a temporary script file.
+Sea ice high-spatial-resoluton image segmentation and feature extraction
+Author: Xin Miao
+Date: 7/18/2016
 """
-
 from __future__ import print_function
 from skimage import data
 import matplotlib
@@ -16,6 +15,8 @@ from skimage import measure
 from skimage.segmentation import felzenszwalb, slic, quickshift
 from skimage.segmentation import mark_boundaries
 from skimage.util import img_as_float
+
+from sklearn.ensemble import RandomForestClassifier
 
 img = img_as_float(data.load('D:/Sea_Ice_Photo/072610/Examples/072610_00022.jpg'))
 #[::2, ::2])
@@ -45,21 +46,40 @@ print("Quickshift number of segments: %d" % len(np.unique(segments_quick)))
 #    a.set_yticks(())
 #plt.show()
 
-
 #plt.imshow(mark_boundaries(img,segments_slic))
 #plt.imsave('result.jpg', mark_boundaries(img,segments_slic))
 
 plt.imshow(mark_boundaries(img,segments_quick))
 plt.imsave('result.jpg', mark_boundaries(img,segments_quick))
 
-properties = measure.regionprops(segments_quick, img[:,:,1])
-[prop.area for prop in properties]
+#propertiesR = measure.regionprops(segments_quick, img[:,:,0])
+#propertiesG = measure.regionprops(segments_quick, img[:,:,1])
+#propertiesB = measure.regionprops(segments_quick, img[:,:,2])
+##[prop.area for prop in properties]
+##properties = measure.regionprops(segments_quick, img)
+#RGB=[[prop.mean_intensity for prop in propertiesR], \
+#    [prop.mean_intensity for prop in propertiesG], \
+#    [prop.mean_intensity for prop in propertiesB]]
+#
+#Ratio1=[]
+#Ratio2=[]
+#Ratio3=[]
+#
+#for i in range (0, len(RGB[0])):
+#    Ratio1.append((RGB[2][i]-RGB[0])/(RGB[2][i]+RGB[0][i]))
+#    Ratio2.append((RGB[2][i]-RGB[1])/(RGB[2][i]+RGB[1][i]))
+#    Ratio3.append((RGB[1][i]-RGB[0])/(2*RGB[2][i]-RGB[0][i]-RGB[1][i]))
 
-[prop.mean_intensity for prop in properties]
-#for prop in region:
-#    print(prop, region[prop])
+props = measure.regionprops(segments_quick,img[:,:,0], cache=False)
+r=[prop.mean_intensity for prop in props]
+props = measure.regionprops(segments_quick,img[:,:,1], cache=False)
+g=[prop.mean_intensity for prop in props]
+props = measure.regionprops(segments_quick,img[:,:,2], cache=False)
+b=[prop.mean_intensity for prop in props]
+Ratio1 = np.divide(np.subtract(b,r),np.add(b,r))
+Ratio2 = np.divide(np.subtract(b,g),np.add(b,g))
+Ratio3 = np.divide(np.subtract(g,r),np.subtract(np.subtract(np.multiply(b,2),g),r))
+features = np.column_stack((r,g,b,Ratio1,Ratio2,Ratio3))
 
-
-
-
+np.savetxt('features.txt', features, delimiter=',')   # X is an array
 
