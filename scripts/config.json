@@ -1,0 +1,22 @@
+{
+	"local.localhost" : {
+				"project"  : null,
+				"queue"    : null,
+				"schema"   : "local",
+				"cores": 2
+			},
+
+	"xsede.stampede" : {
+				"project"  : "TG-TRA100001S",
+				"queue"    : "development",
+				"schema"   : "ssh",
+				"cores": 16
+			},
+
+	"xsede.comet"  : {
+				"project"  : "unc101",
+				"queue"    : "compute",
+				"schema"   : "ssh",
+				"cores": 16
+			}
+}
