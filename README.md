@@ -7,9 +7,9 @@ Thanks also to the Polar Research Coordination Network (RCN) hackathon organizer
 
 # Decription
 
-A hot topic for the sea ice community is the segmentation and classification of sea ice imagery. The manually delineating of sea ice, open water, leads, melt ponds etc from sea ice images can be a time consuming, and labor intensive process. 
+A hot topic for the sea ice community is the segmentation and classification of sea ice imagery. Manually delineating sea ice images into their various surface types (e.g. open water, leads, melt ponds etc) can be a time consuming, and labor intensive process. 
 
-In this hackathon we developed various supervised/unsupervised training algorithms in the open source programming language Python - that read in and classify sea ice imagery. The algorithms are HPC compliant, and successful imagery analysis has been carried out on the Comet HPC. 
+In this hackathon we applied various supervised/unsupervised machine learning algorithms (mainly taken from scikit-learn/Python) to classify sea ice images. The Python scripts developed are HPC compliant, and successful imagery analysis has been carried out on the Comet HPC. 
 
 An interactive Python interface has been developed to allow for quick and interactive manual classification of images to drive the supervised machine learning algorithms. 
 
