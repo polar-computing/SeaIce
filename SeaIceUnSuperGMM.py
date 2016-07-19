@@ -11,6 +11,7 @@ from skimage.segmentation import mark_boundaries
 #load and apply the Gaussian Mixture Model (GMM) classification scheme to one sea ice image.
 from sklearn import mixture
 from glob import glob
+import re
 
 def sortGMM(gmixT):
     # Sort the classification by mean spectral values 
@@ -33,18 +34,53 @@ def plotImage(img, imageName):
     #plt.show()
     savefig('./Out'+imageName)
 
-def getMultiImages(trainingPath, numFiles):
+# Reads r, g, b from a QuckBird GeoTiff
+def GetQBirdRGB(fili):
+
+    geo = gdal.Open(fili)
+
+    nx = geo.RasterXSize
+    ny = geo.RasterYSize
+     
+    band1 = geo.GetRasterBand(1)  # Blue
+    band2 = geo.GetRasterBand(2)  # Green
+    band3 = geo.GetRasterBand(3)  # Red
+
+    b = band1.ReadAsArray()
+    g = band2.ReadAsArray()
+    r = band3.ReadAsArray()
+
+    cube = np.empty([ny,nx,3], dtype=b.dtype)
+    cube[:,:,0] = r
+    cube[:,:,1] = g
+    cube[:,:,2] = b
+
+    return cube
+
+def getImage(fili, flatten=False)
+
+    if (re.search("\.jpg$",fili)):
+		img = misc.imread(fili)
+	elif (re.search("\.tif$",fili)):
+	    img = GetQBirdRGB(fili)
+	else:
+		print "% getImage: Reader for filetype not available"
+		
+	if (flatten):
+		img.reshape((-1,3))
+		
+	return img
+	
+def getMultiImages(trainingPath, numFiles, filetype='jpg'):
     # Read in multiple images
     # Number of images we want to use from within the training directory 
-    files=glob(trainingPath+'*.jpg')
-    imgAll = misc.imread(files[0]).reshape((-1, 3))
+    files=glob(trainingPath+'*.'+filetype)
+	imgAll = getImage(files[0], flatten=True)
     print 'Num of files used: '+str(numFiles)+'/'+str(size(files))
-    iterfiles = iter(files)
-    next(iterfiles)
 
     # Concatenate images into one big image
-    for file in files[0:numFiles]:
-        imgT = misc.imread(file).reshape((-1, 3))
+    for file in files[1:numFiles]:
+        imgT = getImage(file, flatten=True)
         imgAll=np.concatenate((imgT, imgAll))
     print 'size of combined image:', imgAll.shape
     return imgAll
@@ -68,7 +104,7 @@ iceTypes=4
 imageName="072610_00211.jpg"
 
 # Read in a sea ice image
-img = misc.imread(filePath+imageName)
+img = getImage(filePath+imageName)
 plotImage(img, imageName)
 
 # Train the algorithm (GMM) with a number of images 
