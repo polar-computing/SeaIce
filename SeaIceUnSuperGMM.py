@@ -5,6 +5,14 @@
 # 
 # Contributing authors: Alek Petty, Andrew Barrett, Xin Miao, Phil McDowell, Vivek Balasubramanian
 
+
+## Please note that dependent software packages are currently installed in /home/02374/vivek91. Once stabilized 
+## will create specific modules for them.
+
+import matplotlib
+
+matplotlib.use("AGG")       # Just to tell the imshow() function not to write to DISPLAY but to the buffer
+
 from scipy import misc
 from pylab import *
 from skimage.segmentation import mark_boundaries
@@ -58,7 +66,7 @@ def GetQBirdRGB(fili):
 
     return cube
 
-def getImage(fili, flatten=False)
+def getImage(fili, flatten=False):
 
     if (re.search("\.jpg$",fili)):
 		img = misc.imread(fili)
