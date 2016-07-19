@@ -11,6 +11,7 @@ from skimage.segmentation import mark_boundaries
 #load and apply the Gaussian Mixture Model (GMM) classification scheme to one sea ice image.
 from sklearn import mixture
 from glob import glob
+from osgeo import gdal
 import re
 
 def sortGMM(gmixT):
