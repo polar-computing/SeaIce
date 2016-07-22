@@ -17,6 +17,6 @@
 				"project"  : "unc101",
 				"queue"    : "compute",
 				"schema"   : "ssh",
-				"cores": 16
+				"cores": 24
 			}
 }

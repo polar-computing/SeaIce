@@ -130,7 +130,7 @@ if __name__ == "__main__":
 
 	# Train the algorithm (GMM) with a number of images 
 	#First generate a large image from multiple images
-i	imgAll = getMultiImages(args.trainingpath, args.num_train, filetype=os.path.basename(args.imagepath).split('.')[1])
+	imgAll = getMultiImages(args.trainingpath, args.num_train, filetype=os.path.basename(args.imagepath).split('.')[1])
 
 	gmixAll = mixture.GMM(n_components=args.icetypes, covariance_type='full')
 	gmixAll.fit(imgAll)

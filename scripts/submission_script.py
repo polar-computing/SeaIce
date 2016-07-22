@@ -3,6 +3,14 @@ from radical.ensemblemd import PoE
 from radical.ensemblemd import EnsemblemdError
 from radical.ensemblemd import ResourceHandle
 
+from radical.ensemblemd.engine import get_engine
+from qbird import kernel_qbird
+get_engine().add_kernel_plugin(kernel_qbird)
+
+import os
+import json
+import sys
+
 # ------------------------------------------------------------------------------
 # Set default verbosity
 
@@ -16,12 +24,13 @@ class MyApp(PoE):
 		 PoE.__init__(self, stages,instances)
 
 	def stage_1(self, instance):
-		k = Kernel(name="hack.qbird")
+		k = Kernel(name="qbird")
 		k.upload_input_data = ['SeaIceUnSuperGMM.py']
-		k.arguments = ["--imagepath=/home/vivek91/xsede-hack/IMG/XinImages/TEST/",
+		k.arguments = ["--script=SeaIceUnSuperGMM.py",
+				"--imagepath=/home/vivek91/xsede-hack/IMG/XinImages/TEST/072610_00332.jpg",
 				"--trainingpath=/home/vivek91/xsede-hack/IMG/XinImages/TRAINING/",
 				"--num_train=3",
-				"icetypes=4"]
+				"--icetypes=4"]
 		k.download_output_data = ["labelledImage3trainingImages.png > image_{0}.png".format(instance)]
 		return k
 
@@ -47,8 +56,8 @@ if __name__ == "__main__":
 		cluster = ResourceHandle(
 				resource=resource,
 				cores=config[resource]["cores"],
-				walltime=15,
-				#username=None,
+				walltime=60,
+				username='vivek91',
 
 				project=config[resource]['project'],
 				access_schema = config[resource]['schema'],
@@ -61,7 +70,7 @@ if __name__ == "__main__":
 
 		# Set the 'instances' of the BagofTasks to 16. This means that 16 instances
 		# of each BagofTasks step are executed.
-		app = MyApp(stages=1,instances=16)
+		app = MyApp(stages=1,instances=1)
 
 		cluster.run(app)
 
