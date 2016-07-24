@@ -7,27 +7,44 @@ Thanks also to the Polar Research Coordination Network (RCN) hackathon organizer
 
 # Decription
 
-A hot topic for the sea ice community is the segmentation and classification of sea ice imagery. Manually delineating sea ice images into their various surface types (e.g. open water, leads, melt ponds etc) can be a time consuming, and labor intensive process. 
+High-resolution satellite and aerial imagery are increasingly used to provide assessments of the spatial and temporal coverage of various surface types of the Arctic and Southern Oceans. An important challenge for the sea ice community is the segmentation and classification of these images into these various surfaces (e.g. smooth ice, deformed ice, open water, melt ponds, etc). Manually delineating images can be a time consuming, and labor intensive process, however, and various tools have thus been developed to automate this process using various machine learning techniques. 
 
-In this hackathon we applied various supervised/unsupervised machine learning algorithms (mainly taken from scikit-learn/Python) to classify sea ice images. The Python scripts developed are HPC compliant, and successful imagery analysis has been carried out on the Comet HPC. 
+At the Extreme Science and Engineering Discovery Environment (XSEDE) 2016 conference, the Polar Research Coordination Network (RCN) organized a sea ice hackathon to unite polar scientists and high-performance computing experts in an effort to generate an open-source, machine learning toolkit to classify sea ice imagery across various sensors (aerial/satellite) and spatial scales.
 
-An interactive Python interface has been developed to allow for quick and interactive manual classification of images to drive the supervised machine learning algorithms. 
+# Hackathon Outcomes
 
-The algorithms are explained in more detail in various IPython Notebooks.
+We wanted to compare the computation and classification performance between 
+1) Unsupervised vs. supervised classification
+2) Pixel-based vs. object-based classification
+3) Different classification algorithms such as GMM vs. Random Forest (and permutations thereof).
 
-We hope to eventually use thse tools to analyze across a large number of images (across various spatial/temporal scales) to derive detailed sea ice surface parameters and their corresponding changes in time and space. 
+We applied various supervised/unsupervised machine learning algorithms (mainly taken from scikit-learn/Python) to classify sea ice images. Note that an interactive Python interface has been developed to allow for quick and interactive manual classification of images to drive the supervised machine learning algorithms.
 
-# Code
-Our original algorithm includes three major steps: (1) the image segmentation groups the neighboring pixels into objects according to the similarity of spectral and textural information; (2) a random forest classifier (RF) distinguishes four general classes: water, general submerged ice (GSI, including melt ponds and submerged ice along ice edges), shadow, and ice/snow; and (3) the polygon neighbor analysis further separates melt ponds and submerged ice from the GSI according to their spatial relationships. So far we only applied it to a rather small data set (163 aerial photographs taken during the Chinese National Arctic Research Expedition in summer 2010 (CHINARE 2010) in the Arctic Pacific Sector) due to the limited computation resources.
+The Random forest algorithm can be easily realized in  multi-core computation system, making it very suitable to run in a high-performance computing environment. Currently, the computational challenges can be viewed in two modes: 
+a) number of images that can be processed concurrently on HPC machines
+b) optimizations at the level of individual processing functions (e.g. parallelizing the segmentation functions, classification functions) within the workflow. 
+Initial evaluation of the unsupervised workflow (vanilla implementation) with images of O(10) MB of data took 30 mins of compute time on XSEDE.Comet. We expect individual image data to grow to O(1000) MB and the number of images to grow to O(100)-O(1000).
 
-# Data
-Data sets (all images are in JPG or TIFF format)--
+The classification/segmentation approaches are explained in more detail in various IPython Notebooks which are still being updated as the various processing chains are developed.
 
-Declassified GFL data (1755 images)	450 GB	The six fiducial sites and repeated images tracking data buoys/floes.
-SHEBA 1998 (Perovich )	16.5 GB	Beaufort Sea, 13 flights between May 17, 1998 and October 4, 1998. Also a few National Technical Means high resolution satellite photographs.
-HOTRAX 2005 (Perovich))	31.3 GB	TransArctic cruise from Alaska to Norway, 10 flights from August 14, 2005 to September 26, 2005.
-CHINARE 2008 (Xie)	20.0 GB	Pacific Arctic sector (between 140 °W and 180 °W up to 86 °N), August 17 to Sept 5, 2008.
-CHINARE 2010 (Xie)	23.7 GB	Pacific Arctic sector (between 150 °W and 180 °W up to 88.5 °N), July 21 to August 28, 2010
-CHINARE 2012 (Xie)	21.2 GB	Transpolar section,  (Iceland to Bering Strait),  August-September 2012
-The time lapse camera (Haas)	40.5 GB	Cape Joseph Henry (82.8N, -63.6W), May 2011 to July 2012.
-EM-bird thickness and aerial photos (Haas)	21.2 GB	April 2009, 2011, and 2012, between 82.5 N and 86N, and -60W and -70W.
+
+# Current image processing description
+
+Our original algorithm includes three major steps: 
+(1) the image segmentation groups the neighboring pixels into objects according to the similarity of spectral and textural information; (2) a random forest classifier (RF) distinguishes four general classes: water, general submerged ice (GSI, including melt ponds and submerged ice along ice edges), shadow, and ice/snow.
+(3) the polygon neighbor analysis further separates melt ponds and submerged ice from the GSI according to their spatial relationships. 
+
+So far we only applied it to a rather small data set (aerial photographs taken during the Chinese National Arctic Research Expedition in summer 2010 (CHINARE 2010) in the Arctic Pacific Sector). We are currently testing the code on these images and other aerial/satellite imagery datasets (e.g. Operation IceBridge DMS and QuickBird)
+
+# Hackathon conclusions and future work
+
+Open-source Python libraries appear sufficient to produce results at least equal to those produced using commercial remote sensing image classification software, while adding more functionality, convenience and utility (at no cost). 
+
+There are several lnger-term research avenues that have been identified for future work:
+1) Divide large images into small pieces to run image segmentation on multiple cores. 
+2) Separate meld ponds from general submerged ice using a neighbor analysis. 
+3) Complete the interactive sample selection approache in a service-based module, to be used in a cyberinfrastructure. 
+4) Replace CPU based implementations of classifiers with GPU based implementations and restructure code to take advantage of available resources. 
+5) Several steps in the classification proecss chain required user interaction, where Python may not be the optimum choice. These interactive components could be rewritten using a combination of Python, HTML and JavaScript ideally.
+
+
