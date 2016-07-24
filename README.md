@@ -14,15 +14,15 @@ At the Extreme Science and Engineering Discovery Environment (XSEDE) 2016 confer
 # Hackathon Outcomes
 
 We wanted to compare the computation and classification performance between:   
-1) Unsupervised vs. supervised classification   
-2) Pixel-based vs. object-based classification   
+1) Unsupervised vs. supervised classification     
+2) Pixel-based vs. object-based classification      
 3) Different classification algorithms such as GMM vs. Random Forest (and permutations thereof).   
 
 We applied various supervised/unsupervised machine learning algorithms (mainly taken from scikit-learn/Python) to classify sea ice images. Note that an interactive Python interface has been developed to allow for quick and interactive manual classification of images to drive the supervised machine learning algorithms.
 
 The Random forest algorithm can be easily realized in  multi-core computation system, making it very suitable to run in a high-performance computing environment. Currently, the computational challenges can be viewed in two modes:    
-a) number of images that can be processed concurrently on HPC machines   
-b) optimizations at the level of individual processing functions (e.g. parallelizing the segmentation functions, classification functions) within the workflow.    
+a) number of images that can be processed concurrently on HPC machines.      
+b) optimizations at the level of individual processing functions (e.g. parallelizing the segmentation functions, classification functions) within the workflow.       
 Initial evaluation of the unsupervised workflow (vanilla implementation) with images of O(10) MB of data took 30 mins of compute time on XSEDE.Comet. We expect individual image data to grow to O(1000) MB and the number of images to grow to O(100)-O(1000).
 
 The classification/segmentation approaches are explained in more detail in various IPython Notebooks which are still being updated as the various processing chains are developed.
@@ -30,7 +30,7 @@ The classification/segmentation approaches are explained in more detail in vario
 # Current image processing description
 
 Our original algorithm includes three major steps:    
-(1) the image segmentation groups the neighboring pixels into objects according to the similarity of spectral and textural information.  (2) a random forest classifier (RF) distinguishes four general classes: water, general submerged ice (GSI, including melt ponds and submerged ice along ice edges), shadow, and ice/snow.   
+(1) the image segmentation groups the neighboring pixels into objects according to the similarity of spectral and textural information.    (2) a random forest classifier (RF) distinguishes four general classes: water, general submerged ice (GSI, including melt ponds and submerged ice along ice edges), shadow, and ice/snow.      
 (3) the polygon neighbor analysis further separates melt ponds and submerged ice from the GSI according to their spatial relationships. 
 
 So far we only applied it to a rather small data set (aerial photographs taken during the Chinese National Arctic Research Expedition in summer 2010 (CHINARE 2010) in the Arctic Pacific Sector). We are currently testing the code on these images and other aerial/satellite imagery datasets (e.g. Operation IceBridge DMS and QuickBird)
