@@ -23,6 +23,7 @@ We applied various supervised/unsupervised machine learning algorithms (mainly t
 The Random forest algorithm can be easily realized in  multi-core computation system, making it very suitable to run in a high-performance computing environment. Currently, the computational challenges can be viewed in two modes:    
 - Number of images that can be processed concurrently on HPC machines.      
 - Optimizations at the level of individual processing functions (e.g. parallelizing the segmentation functions, classification functions) within the workflow.    
+
 Initial evaluation of the unsupervised workflow (vanilla implementation) with images of O(10) MB of data took 30 mins of compute time on XSEDE.Comet. We expect individual image data to grow to O(1000) MB and the number of images to grow to O(100)-O(1000).
 
 The classification/segmentation approaches are explained in more detail in various IPython Notebooks which are still being updated as the various processing chains are developed.
@@ -40,7 +41,7 @@ So far we only applied it to a rather small data set (aerial photographs taken d
 
 Open-source Python libraries appear sufficient to produce results at least equal to those produced using commercial remote sensing image classification software, while adding more functionality, convenience and utility (at no cost). 
 
-There are several lnger-term research avenues that have been identified for future work:   
+There are several longer-term research ideas that have been identified for future work:   
 - Divide large images into small pieces to run image segmentation on multiple cores.    
 - Separate meld ponds from general submerged ice using a neighbor analysis.    
 - Complete the interactive sample selection approache in a service-based module, to be used in a cyberinfrastructure.    
