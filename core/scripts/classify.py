@@ -20,11 +20,11 @@ import os
 from datetime import datetime
 
 
-def timedeltatostring(timeDelta):
+def timeDeltaToHMS(timeDelta):
     seconds = timeDelta.total_seconds()
     m, s = divmod(seconds, 60)
     h, m = divmod(m, 60)
-    return "Segmentation complete in %d:%02d:%02d" % (h, m, s)
+    return (h, m, s)
 
 parser = argparse.ArgumentParser(description="Quicksift + random forest image classification")
 parser.add_argument("-c", "--classifier", help="Optional: Trained Classifier. If argument not set will look for 'fittedforest.p in input directory'")
@@ -83,7 +83,7 @@ for imgPath in images:
     segments = quickshift(img, kernel_size=qs_kernel_size, max_dist=qs_max_dist, ratio=qs_ratio)
     t2 = datetime.now()
     delta = t2 - t1
-    print timedeltatostring(delta)
+    print "Segmentation complete in %d:%02d:%02d" % timeDeltaToHMS(delta)
     features = extractSegmentPropertiesRGB(segments,img)
     print "Classifying..."
     output = forest.predict(features)
